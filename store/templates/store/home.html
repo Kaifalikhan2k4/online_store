@@ -1,0 +1,22 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<h1 class="title">🛍️ Welcome to Kaif Store</h1>
+
+<div class="products">
+    {% for product in products %}
+        <div class="card">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% endif %}
+            <h3>{{ product.name }}</h3>
+            <p class="desc">{{ product.description|truncatewords:10 }}</p>
+            <p class="price">₹{{ product.price }}</p>
+
+            <a href="{% url 'add_to_cart' product.id %}" class="btn">🛒 Add to Cart</a>
+        </div>
+    {% empty %}
+        <p>No products yet. Add one!</p>
+    {% endfor %}
+</div>
+{% endblock %}

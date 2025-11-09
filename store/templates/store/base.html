@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kaif Store</title>
+    <link rel="stylesheet" href="{% static 'store/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">🏠 Home</a>
+        <a href="/cart/">🛒 Cart</a>
+
+        {% if user.is_authenticated %}
+            <span class="welcome">Welcome, {{ user.username }}</span>
+            <a href="/add-product/">➕ Add Product</a>
+            <a href="/user/logout/">🚪 Logout</a>
+        {% else %}
+            <a href="/user/login/">Login</a>
+            <a href="/user/register/">Register</a>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
