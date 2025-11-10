@@ -2,13 +2,24 @@
 
 {% block content %}
 <h2>Your Cart 🛒</h2>
+
 {% if products %}
-    <ul>
+<div class="products">
     {% for product in products %}
-        <li>{{ product.name }} — ₹{{ product.price }}</li>
+        <div class="card">
+            <img src="{{ product.image.url }}">
+
+            <h3>{{ product.name }}</h3>
+            <p>₹{{ product.price }}</p>
+
+            <a href="{% url 'remove_from_cart' product.id %}" class="btn-danger">
+                ❌ Remove
+            </a>
+        </div>
     {% endfor %}
-    </ul>
+</div>
+
 {% else %}
-    <p>Your cart is empty.</p>
+<p>Your cart is empty.</p>
 {% endif %}
 {% endblock %}

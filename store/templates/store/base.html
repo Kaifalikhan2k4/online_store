@@ -1,29 +1,60 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Kaif Store</title>
+
+    {% load static %}
     <link rel="stylesheet" href="{% static 'store/style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="navbar">
-        <a href="/">🏠 Home</a>
-        <a href="/cart/">🛒 Cart</a>
+        <div class="nav-left">
+            <a href="/">🏠 Home</a>
+            <a href="/cart/">🛒 Cart</a>
+            {% if user.is_authenticated %}
+                <a href="/add-product/">➕ Add Product</a>
+            {% endif %}
+        </div>
 
-        {% if user.is_authenticated %}
-            <span class="welcome">Welcome, {{ user.username }}</span>
-            <a href="/add-product/">➕ Add Product</a>
-            <a href="/user/logout/">🚪 Logout</a>
-        {% else %}
-            <a href="/user/login/">Login</a>
-            <a href="/user/register/">Register</a>
-        {% endif %}
+        <div class="nav-center">
+            <form method="get" action="{% url 'home' %}" class="search-form">
+                <input type="text" name="search" placeholder="Search products..." value="{{ search_query }}">
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+        </div>
+
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+                <span class="welcome">Welcome, {{ user.username }}</span>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+            <button id="themeToggle" class="theme-btn">🌙</button>
+        </div>
     </div>
 
+
+    <script>
+        const button = document.getElementById("themeToggle");
+
+        button.onclick = function () {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("theme", document.body.classList.contains("dark-mode"));
+        };
+
+        if (localStorage.getItem("theme") === "true") {
+            document.body.classList.add("dark-mode");
+        }
+    </script>
+
     <div class="container">
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </div>
 </body>
 </html>
